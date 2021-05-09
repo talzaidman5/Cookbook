@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.cookbook">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="false"
+        android:theme="@style/Theme.AppCompat"
+        tools:replace="android:supportsRtl">
+        <activity
+            android:name=".activity.Splashscreen"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    <activity android:name=".activity.newRecipe"></activity>
+    <activity android:name=".activity.Recipes_Main"></activity>
+    <activity android:name=".activity.MainActivity"></activity>
+    <activity android:name=".activity.ReadRecipeMain"></activity>
+    <activity android:name=".activity.ReadRecipeDessert"></activity>
+    <activity android:name=".activity.LogIn"></activity>
+    <activity android:name=".activity.allRecipe"></activity>
+    <activity android:name=".activity.ReadRecipeAdds"></activity>
+    <activity android:name=".activity.ReadRecipeFirsts"></activity>
+    <activity android:name=".activity.Recipes_Adds"></activity>
+    <activity android:name=".activity.Recipes_Firsts"></activity>
+    <activity android:name=".activity.Recipes_Dessert"></activity>
+    </application>
+
+</manifest>
