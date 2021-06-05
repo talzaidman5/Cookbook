@@ -48,7 +48,6 @@ public class allRecipe extends AppCompatActivity {
         setContentView(R.layout.activity_all_recipe);
 
         findViews(view);
-   //     ListView listView = (ListView) findViewById(R.id.listView_ingredient);
 
         msp = new MySheredP(this);
 
