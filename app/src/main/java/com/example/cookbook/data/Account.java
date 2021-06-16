@@ -8,9 +8,13 @@ public class Account {
 
     private String userPhoneNumber;
     private ArrayList<Recipe> recipesMain;
+    private ArrayList<RecipeImg> recipesMainImg;
     private ArrayList<Recipe> recipesFirsts;
+    private ArrayList<RecipeImg> recipesFirstsImg;
     private ArrayList<Recipe> recipesDessert;
+    private ArrayList<RecipeImg> recipesDessertImg;
     private ArrayList<Recipe> recipesAdds;
+    private ArrayList<RecipeImg> recipesAddsImg;
     private String uuidAccount;
 
 
@@ -19,9 +23,12 @@ public class Account {
         recipesFirsts = new ArrayList<Recipe>();
         recipesDessert = new ArrayList<Recipe>();
         recipesAdds = new ArrayList<Recipe>();
+
+        recipesMainImg = new ArrayList<RecipeImg>();
+        recipesFirstsImg = new ArrayList<RecipeImg>();
+        recipesDessertImg = new ArrayList<RecipeImg>();
+        recipesAddsImg = new ArrayList<RecipeImg>();
     }
-
-
 
 
     public Account(String data) {
@@ -29,13 +36,15 @@ public class Account {
     }
 
 
-
-
     public Account(Account other) {
         this.recipesAdds = other.recipesAdds;
+        this.recipesAddsImg = other.recipesAddsImg;
         this.recipesDessert = other.recipesDessert;
+        this.recipesDessertImg = other.recipesDessertImg;
         this.recipesFirsts = other.recipesFirsts;
+        this.recipesFirstsImg = other.recipesFirstsImg;
         this.recipesMain = other.recipesMain;
+        this.recipesMainImg = other.recipesMainImg;
         this.userPhoneNumber = other.userPhoneNumber;
         this.uuidAccount = other.uuidAccount;
     }
@@ -44,14 +53,11 @@ public class Account {
         Account tempA;
         if (data == "NA") {
             tempA = new Account();
-        }
-        else {
+        } else {
             tempA = new Gson().fromJson(data, Account.class);
         }
         return tempA;
     }
-
-
 
 
     public Account(String userPhoneNumber, String uuidAccount) {
@@ -63,34 +69,39 @@ public class Account {
         recipesDessert = new ArrayList<Recipe>();
         recipesAdds = new ArrayList<Recipe>();
 
+        recipesMainImg = new ArrayList<RecipeImg>();
+        recipesFirstsImg = new ArrayList<RecipeImg>();
+        recipesDessertImg = new ArrayList<RecipeImg>();
+        recipesAddsImg = new ArrayList<RecipeImg>();
+
 
     }
 
-    public Recipe getRecipeByNameAdds(String name){
-        for (int i =0; i<this.recipesAdds.size();i++)
-            if(this.recipesAdds.get(i).getName().equals(name))
+    public Recipe getRecipeByNameAdds(String name) {
+        for (int i = 0; i < this.recipesAdds.size(); i++)
+            if (this.recipesAdds.get(i).getName().equals(name))
                 return recipesAdds.get(i);
-    return null;
+        return null;
     }
 
 
-    public Recipe getRecipeByNameDessert(String name){
-        for (int i =0; i<this.recipesDessert.size();i++)
-            if(this.recipesDessert.get(i).getName().equals(name))
+    public Recipe getRecipeByNameDessert(String name) {
+        for (int i = 0; i < this.recipesDessert.size(); i++)
+            if (this.recipesDessert.get(i).getName().equals(name))
                 return recipesDessert.get(i);
         return null;
     }
 
-    public Recipe getRecipeByNameFirsts(String name){
-        for (int i =0; i<this.recipesFirsts.size();i++)
-            if(this.recipesFirsts.get(i).getName().equals(name))
+    public Recipe getRecipeByNameFirsts(String name) {
+        for (int i = 0; i < this.recipesFirsts.size(); i++)
+            if (this.recipesFirsts.get(i).getName().equals(name))
                 return recipesFirsts.get(i);
         return null;
     }
 
-    public Recipe getRecipeByNameMain(String name){
-        for (int i =0; i<this.recipesMain.size();i++)
-            if(this.recipesMain.get(i).getName().equals(name))
+    public Recipe getRecipeByNameMain(String name) {
+        for (int i = 0; i < this.recipesMain.size(); i++)
+            if (this.recipesMain.get(i).getName().equals(name))
                 return recipesMain.get(i);
         return null;
     }
@@ -112,28 +123,22 @@ public class Account {
     }
 
 
-
-
-    public void clearRecipesDessert()
-    {
+    public void clearRecipesDessert() {
         this.recipesDessert.clear();
         recipesDessert = new ArrayList<Recipe>();
     }
 
-    public void clearRecipesFirsts()
-    {
+    public void clearRecipesFirsts() {
         this.recipesFirsts.clear();
         recipesFirsts = new ArrayList<Recipe>();
     }
 
-    public void clearRecipesAdds()
-    {
+    public void clearRecipesAdds() {
         this.recipesAdds.clear();
         recipesAdds = new ArrayList<Recipe>();
     }
 
-    public void clearRecipesMain()
-    {
+    public void clearRecipesMain() {
         this.recipesMain.clear();
         recipesMain = new ArrayList<Recipe>();
     }
@@ -146,40 +151,56 @@ public class Account {
         this.uuidAccount = uuidAccount;
     }
 
-    public void addToMain(Recipe add){
+    public void addToMain(Recipe add) {
         recipesMain.add(add);
     }
 
-    public void addToFirsts(Recipe add){
+    public void addToMain(RecipeImg add) {
+        recipesMainImg.add(add);
+    }
+
+    public void addToFirsts(Recipe add) {
         recipesFirsts.add(add);
     }
-    public void addToDessert(Recipe add){
+
+    public void addToFirsts(RecipeImg add) {
+        recipesFirstsImg.add(add);
+    }
+
+    public void addToDessert(Recipe add) {
         recipesDessert.add(add);
     }
 
-    public void addToAdds(Recipe add){
+    public void addToDessert(RecipeImg add) {
+        recipesDessertImg.add(add);
+    }
+
+    public void addToAdds(Recipe add) {
         recipesAdds.add(add);
     }
 
+    public void addToAdds(RecipeImg add) {
+        recipesAddsImg.add(add);
+    }
 
 
-    public ArrayList<Recipe> updateRecipesAdds(Recipe update, int pos){
-        recipesAdds.set(pos,update);
+    public ArrayList<Recipe> updateRecipesAdds(Recipe update, int pos) {
+        recipesAdds.set(pos, update);
         return recipesAdds;
     }
 
-    public ArrayList<Recipe> updateRecipesMain(Recipe update, int pos){
-        recipesMain.set(pos,update);
+    public ArrayList<Recipe> updateRecipesMain(Recipe update, int pos) {
+        recipesMain.set(pos, update);
         return recipesMain;
     }
 
-    public ArrayList<Recipe> updateRecipesFirsts(Recipe update, int pos){
-        recipesFirsts.set(pos,update);
+    public ArrayList<Recipe> updateRecipesFirsts(Recipe update, int pos) {
+        recipesFirsts.set(pos, update);
         return recipesFirsts;
     }
 
-    public ArrayList<Recipe> updateRecipesDessert(Recipe update, int pos){
-        recipesDessert.set(pos,update);
+    public ArrayList<Recipe> updateRecipesDessert(Recipe update, int pos) {
+        recipesDessert.set(pos, update);
         return recipesDessert;
     }
 
@@ -207,8 +228,6 @@ public class Account {
     public void setUserPhoneNumber(String userPhoneNumber) {
         this.userPhoneNumber = userPhoneNumber;
     }
-
-
 
 
 }

@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
 import com.example.cookbook.data.MySheredP;
 import com.example.cookbook.data.Recipe;
+import com.example.cookbook.data.RecipeImg;
 import com.example.cookbook.data.allAccounts;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,12 +47,15 @@ import java.util.ArrayList;
 
 public class newRecipeImg extends AppCompatActivity {
     private Spinner type;
-    private Button back;
+    private Button back, new_BTN_add;
     private Context context;
-
+    private EditText new_TXT_name;
     private ImageView imageView;
+    private MySheredP msp;
+    private Gson gson = new Gson();
 
     public static final String KEY_Account = "account";
+    private Account account;
 
 
     @Override
@@ -61,7 +66,8 @@ public class newRecipeImg extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_new_recipe_image);
 
-
+        msp = new MySheredP(this);
+        getFromMSP();
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
@@ -74,7 +80,30 @@ public class newRecipeImg extends AppCompatActivity {
             }
         });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.type,R.layout.sppiner_style);
+        new_BTN_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int typeNew = (int) type.getSelectedItemId();
+                RecipeImg recpie = new RecipeImg(new_TXT_name.getText().toString(), typeNew, imageView);
+                if (typeNew == 3)
+                    account.addToDessert(recpie);
+
+                if (typeNew == 1)
+                    account.addToMain(recpie);
+
+                if (typeNew == 0)
+                    account.addToFirsts(recpie);
+
+
+                if (typeNew == 2)
+                    account.addToAdds(recpie);
+                putOnMSP();
+                openActivityMain();
+
+            }
+        });
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.type, R.layout.sppiner_style);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         type.setAdapter(adapter);
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -90,6 +119,26 @@ public class newRecipeImg extends AppCompatActivity {
         });
 
         selectImage();
+
+    }
+
+    private void openActivityMain() {
+        Intent intent = new Intent(this, Recipes_Main.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void putOnMSP() {
+        String accountTemp = gson.toJson(account);
+        msp.putString(KEY_Account, accountTemp);
+
+    }
+
+    private void getFromMSP() {
+
+        String data = msp.getString(KEY_Account, "NA");
+
+        account = new Account(data);
 
     }
 
@@ -159,6 +208,8 @@ public class newRecipeImg extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         back = findViewById(R.id.back);
         type = findViewById(R.id.type);
+        new_BTN_add = findViewById(R.id.new_BTN_add);
+        new_TXT_name = findViewById(R.id.new_TXT_name);
     }
 
 

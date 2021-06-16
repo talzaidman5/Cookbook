@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_no_logo"
-    tools:context=".activity.newRecipe">
+    tools:context=".activity.newRecipeImg">
 
     <ImageView
         android:id="@+id/new_IMG_logo"
@@ -45,6 +45,17 @@
         android:orientation="vertical"
         android:gravity="right"
         >
+        <EditText
+            android:id="@+id/new_TXT_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_19sdp"
+            android:fontFamily="@font/hebrow_lior"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textColor="#000000"
+            android:text="כותרת: "/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,7 +87,7 @@
 
 
         <TextView
-            android:id="@+id/new_TXT_name"
+            android:id="@+id/new_TXT_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/_19sdp"
@@ -98,7 +109,7 @@
 
 
         <Button
-            android:id="@+id/add"
+            android:id="@+id/new_BTN_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
