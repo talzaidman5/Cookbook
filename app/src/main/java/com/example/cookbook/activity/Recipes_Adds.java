@@ -56,7 +56,6 @@ DatabaseReference myRef = database.getReference("message");
 
         findViews(view);
 
-
         getFromMSP();
 
         adds_all_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {

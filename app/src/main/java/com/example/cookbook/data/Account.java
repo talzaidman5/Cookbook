@@ -8,13 +8,9 @@ public class Account {
 
     private String userPhoneNumber;
     private ArrayList<Recipe> recipesMain;
-    private ArrayList<RecipeImg> recipesMainImg;
     private ArrayList<Recipe> recipesFirsts;
-    private ArrayList<RecipeImg> recipesFirstsImg;
     private ArrayList<Recipe> recipesDessert;
-    private ArrayList<RecipeImg> recipesDessertImg;
     private ArrayList<Recipe> recipesAdds;
-    private ArrayList<RecipeImg> recipesAddsImg;
     private String uuidAccount;
 
 
@@ -23,11 +19,6 @@ public class Account {
         recipesFirsts = new ArrayList<Recipe>();
         recipesDessert = new ArrayList<Recipe>();
         recipesAdds = new ArrayList<Recipe>();
-
-        recipesMainImg = new ArrayList<RecipeImg>();
-        recipesFirstsImg = new ArrayList<RecipeImg>();
-        recipesDessertImg = new ArrayList<RecipeImg>();
-        recipesAddsImg = new ArrayList<RecipeImg>();
     }
 
 
@@ -38,13 +29,9 @@ public class Account {
 
     public Account(Account other) {
         this.recipesAdds = other.recipesAdds;
-        this.recipesAddsImg = other.recipesAddsImg;
         this.recipesDessert = other.recipesDessert;
-        this.recipesDessertImg = other.recipesDessertImg;
         this.recipesFirsts = other.recipesFirsts;
-        this.recipesFirstsImg = other.recipesFirstsImg;
         this.recipesMain = other.recipesMain;
-        this.recipesMainImg = other.recipesMainImg;
         this.userPhoneNumber = other.userPhoneNumber;
         this.uuidAccount = other.uuidAccount;
     }
@@ -68,13 +55,6 @@ public class Account {
         recipesFirsts = new ArrayList<Recipe>();
         recipesDessert = new ArrayList<Recipe>();
         recipesAdds = new ArrayList<Recipe>();
-
-        recipesMainImg = new ArrayList<RecipeImg>();
-        recipesFirstsImg = new ArrayList<RecipeImg>();
-        recipesDessertImg = new ArrayList<RecipeImg>();
-        recipesAddsImg = new ArrayList<RecipeImg>();
-
-
     }
 
     public Recipe getRecipeByNameAdds(String name) {
@@ -155,33 +135,21 @@ public class Account {
         recipesMain.add(add);
     }
 
-    public void addToMain(RecipeImg add) {
-        recipesMainImg.add(add);
-    }
 
     public void addToFirsts(Recipe add) {
         recipesFirsts.add(add);
     }
 
-    public void addToFirsts(RecipeImg add) {
-        recipesFirstsImg.add(add);
-    }
 
     public void addToDessert(Recipe add) {
         recipesDessert.add(add);
     }
 
-    public void addToDessert(RecipeImg add) {
-        recipesDessertImg.add(add);
-    }
 
     public void addToAdds(Recipe add) {
         recipesAdds.add(add);
     }
 
-    public void addToAdds(RecipeImg add) {
-        recipesAddsImg.add(add);
-    }
 
 
     public ArrayList<Recipe> updateRecipesAdds(Recipe update, int pos) {

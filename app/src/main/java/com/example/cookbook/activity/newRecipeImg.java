@@ -1,17 +1,14 @@
 package com.example.cookbook.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,9 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,16 +28,7 @@ import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
 import com.example.cookbook.data.MySheredP;
 import com.example.cookbook.data.Recipe;
-import com.example.cookbook.data.RecipeImg;
-import com.example.cookbook.data.allAccounts;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
 
 
 public class newRecipeImg extends AppCompatActivity {
@@ -53,6 +39,7 @@ public class newRecipeImg extends AppCompatActivity {
     private ImageView imageView;
     private MySheredP msp;
     private Gson gson = new Gson();
+    Bitmap selectedImage;
 
     public static final String KEY_Account = "account";
     private Account account;
@@ -84,7 +71,7 @@ public class newRecipeImg extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int typeNew = (int) type.getSelectedItemId();
-                RecipeImg recpie = new RecipeImg(new_TXT_name.getText().toString(), typeNew, imageView);
+                Recipe recpie = new Recipe(new_TXT_name.getText().toString(), typeNew, selectedImage);
                 if (typeNew == 3)
                     account.addToDessert(recpie);
 
@@ -123,7 +110,7 @@ public class newRecipeImg extends AppCompatActivity {
     }
 
     private void openActivityMain() {
-        Intent intent = new Intent(this, Recipes_Main.class);
+        Intent intent = new Intent(this, Recipes_Adds.class);
         startActivity(intent);
         finish();
     }
@@ -149,7 +136,7 @@ public class newRecipeImg extends AppCompatActivity {
             switch (requestCode) {
                 case 0:
                     if (resultCode == RESULT_OK && data != null) {
-                        Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
+                         selectedImage = (Bitmap) data.getExtras().get("data");
                         imageView.setImageBitmap(selectedImage);
                     }
 

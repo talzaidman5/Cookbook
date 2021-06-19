@@ -3,6 +3,7 @@ package com.example.cookbook.activity;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,17 +34,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 
 public class newRecipe extends AppCompatActivity {
-     private Spinner type;
-     private EditText new_EDIT_name;
-     private EditText new_EDIT_ingredient,popupTXT_preparation_method;
-   private Button new_BTN_add, new_add_one_ingr,back;
-   private Recipe newRecipe;
-   private ListView listView_ingredient;
-   private ArrayList<String> stringArrayList;
+    private Spinner type;
+    private EditText new_EDIT_name;
+    private EditText new_EDIT_ingredient, popupTXT_preparation_method;
+    private Button new_BTN_add, new_add_one_ingr, back;
+    private Recipe newRecipe;
+    private ListView listView_ingredient;
+    private ArrayList<String> stringArrayList;
     ArrayAdapter<String> stringArrayAdapter;
     private View view;
 
@@ -51,7 +53,7 @@ public class newRecipe extends AppCompatActivity {
     DatabaseReference myRef = database.getReference("message");
     private ArrayList<Account> allAccounts = new ArrayList<>();
     private com.example.cookbook.data.allAccounts tempAllAccounts;
-    private  Account account = new Account();
+    private Account account = new Account();
     private String uuid;
 
     private MySheredP msp;
@@ -85,13 +87,14 @@ public class newRecipe extends AppCompatActivity {
         readFromDB();
 
         stringArrayList = new ArrayList<>();
-        stringArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,stringArrayList);
+        stringArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, stringArrayList);
 
 
         listView_ingredient.setAdapter(stringArrayAdapter);
         new_add_one_ingr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 listView_ingredient.setCacheColorHint(Color.WHITE);
                 stringArrayList.add(new_EDIT_ingredient.getText().toString());
                 stringArrayAdapter.notifyDataSetChanged();
@@ -119,8 +122,7 @@ public class newRecipe extends AppCompatActivity {
                                 String newNameStr = input.getText().toString();
                                 if (newNameStr.length() > 0) {
                                     stringArrayList.set(position, newNameStr);
-                                }
-                                else
+                                } else
                                     stringArrayList.remove(position);
 
                                 stringArrayAdapter.notifyDataSetChanged();
@@ -141,7 +143,8 @@ public class newRecipe extends AppCompatActivity {
 
                                 stringArrayList.remove(position);
                                 stringArrayAdapter.notifyDataSetChanged();
-                                dialog.dismiss();                            }
+                                dialog.dismiss();
+                            }
                         });
 
                 alertDialog.show();
@@ -150,7 +153,7 @@ public class newRecipe extends AppCompatActivity {
         });
 
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.type,R.layout.sppiner_style);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.type, R.layout.sppiner_style);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         type.setAdapter(adapter);
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -169,20 +172,18 @@ public class newRecipe extends AppCompatActivity {
             @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View v) {
-                if(checkNullName()==0) {
+                if (checkNullName() == 0) {
                     buildRecipe();
                     openNewActivityMain();
-                  //  showInterstitial();
-                }
-
-                else if(checkNullName()==1)
+                    //  showInterstitial();
+                } else if (checkNullName() == 1)
                     new_EDIT_name.setError("שדה חובה");
 
                 else {
                     new_EDIT_name.setError(" כותרת קיימת ");
 
-                    }
                 }
+            }
 
         });
 
@@ -195,8 +196,6 @@ public class newRecipe extends AppCompatActivity {
     }
 
 
-
-
     private void readFromDB() {
         // Read from the database
         myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -205,7 +204,7 @@ public class newRecipe extends AppCompatActivity {
 
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                if(dataSnapshot.getValue() != null) {
+                if (dataSnapshot.getValue() != null) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Account tempAccount = ds.getValue(Account.class);
                         allAccounts.add(tempAccount);
@@ -226,7 +225,7 @@ public class newRecipe extends AppCompatActivity {
     }
 
     private void findViews(View view) {
-        type = findViewById(R.id.type) ;
+        type = findViewById(R.id.type);
         new_EDIT_name = findViewById(R.id.new_EDIT_name);
         new_BTN_add = findViewById(R.id.new_BTN_add);
         new_add_one_ingr = findViewById(R.id.new_add_one_ingr);
@@ -235,7 +234,6 @@ public class newRecipe extends AppCompatActivity {
         popupTXT_preparation_method = findViewById(R.id.popupTXT_preparation_method);
         back = findViewById(R.id.back);
     }
-
 
 
     private void buildRecipe() {
@@ -255,10 +253,11 @@ public class newRecipe extends AppCompatActivity {
             account.addToAdds(newRecipe);
 
 
-      //  myRef.child("Users").child(account.getUserPhoneNumber()).setValue(account);
+        //  myRef.child("Users").child(account.getUserPhoneNumber()).setValue(account);
 
         putOnMSP();
     }
+
     @Override
     public void onBackPressed() {
         openNewActivityMain();
@@ -276,35 +275,31 @@ public class newRecipe extends AppCompatActivity {
 
     }
 
-    private int checkNullName(){
-        if(new_EDIT_name.getText().length() ==0)
+    private int checkNullName() {
+        if (new_EDIT_name.getText().length() == 0)
             return 1;
         String typeSelected = type.getSelectedItem().toString();
-        if(typeSelected.equals("ראשונות"))
-          for (int i =0; i< account.getRecipesFirsts().size();i++)
-          {
-              if(account.getRecipesFirsts().get(i).getName().equals(new_EDIT_name.getText().toString()))
-                  return 2;
-          }
-        if(typeSelected.equals("עיקריות"))
-            for (int i =0; i< account.getRecipesMain().size();i++)
-            {
-                if(account.getRecipesMain().get(i).getName().equals(new_EDIT_name.getText().toString()))
+        if (typeSelected.equals("ראשונות"))
+            for (int i = 0; i < account.getRecipesFirsts().size(); i++) {
+                if (account.getRecipesFirsts().get(i).getName().equals(new_EDIT_name.getText().toString()))
+                    return 2;
+            }
+        if (typeSelected.equals("עיקריות"))
+            for (int i = 0; i < account.getRecipesMain().size(); i++) {
+                if (account.getRecipesMain().get(i).getName().equals(new_EDIT_name.getText().toString()))
                     return 2;
             }
 
-        if(typeSelected.equals("תוספות"))
-            for (int i =0; i< account.getRecipesAdds().size();i++)
-            {
-                if(account.getRecipesAdds().get(i).getName().equals(new_EDIT_name.getText().toString()))
+        if (typeSelected.equals("תוספות"))
+            for (int i = 0; i < account.getRecipesAdds().size(); i++) {
+                if (account.getRecipesAdds().get(i).getName().equals(new_EDIT_name.getText().toString()))
                     return 2;
             }
 
 
-        if(typeSelected.equals("קינוחים"))
-            for (int i =0; i< account.getRecipesDessert().size();i++)
-            {
-                if(account.getRecipesDessert().get(i).getName().equals(new_EDIT_name.getText().toString()))
+        if (typeSelected.equals("קינוחים"))
+            for (int i = 0; i < account.getRecipesDessert().size(); i++) {
+                if (account.getRecipesDessert().get(i).getName().equals(new_EDIT_name.getText().toString()))
                     return 2;
             }
 
@@ -314,7 +309,7 @@ public class newRecipe extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-     //   getMenuInflater().inflate(R.menu.menu_ads, menu);
+        //   getMenuInflater().inflate(R.menu.menu_ads, menu);
         return true;
     }
 

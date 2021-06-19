@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,14 +36,15 @@ public class ReadRecipeAdds extends AppCompatActivity {
     DatabaseReference myRef = database.getReference("message");
 
     private ListView read_LIST_all_ingredints;
-    private TextView read_TXT_lavels, read_title;
+    private TextView read_title;
+    private ImageView read_title_lavels;
     private View view;
     private String s;
     private Recipe recipe;
     private List listNew = new ArrayList();
     private ArrayAdapter arrayAdapter;
 
-    private Button list_remove, list_edit, list_share,back;
+    private Button list_remove, list_edit, list_share, back;
     private MySheredP msp;
     private Gson gson = new Gson();
     private Account account;
@@ -61,14 +63,11 @@ public class ReadRecipeAdds extends AppCompatActivity {
         s = getIntent().getStringExtra(ReadRecipeAdds.KEY_RECIPE);
 
         recipe = new Gson().fromJson(s, Recipe.class);
-        read_TXT_lavels.setText(recipe.getPreparation());
-        read_title.setText(recipe.getName());
 
 
-        readIngredient();
-        getFromMSP();
+        read_title_lavels.setImageBitmap(recipe.textAsBitmap(read_title_lavels.getLayoutParams().width,
+                read_title_lavels.getLayoutParams().height ));
 
-        recipeIndex = getIndex(recipe);
         list_remove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +98,7 @@ public class ReadRecipeAdds extends AppCompatActivity {
     }
 
 
-    private void editRecipe(){
+    private void editRecipe() {
         final List listIngridents = new ArrayList();
         final ArrayAdapter arrayAdapterIngridents;
 
@@ -112,7 +111,7 @@ public class ReadRecipeAdds extends AppCompatActivity {
         final View view = inflater.inflate(R.layout.popup_update, null);
         EditText name = view.findViewById(R.id.popup_TXT_name);
         ListView ingredient = view.findViewById(R.id.listView_ingredient);
-        Button addIngradient =  view.findViewById(R.id.add);
+        Button addIngradient = view.findViewById(R.id.add);
         final EditText popup_TXT_name = view.findViewById(R.id.popup_TXT_name);
         final EditText popup_TXT_title_ingredient = view.findViewById(R.id.popup_TXT_title_ingredient);
         final EditText popupTXT_preparation_method = view.findViewById(R.id.popupTXT_preparation_method);
@@ -120,8 +119,8 @@ public class ReadRecipeAdds extends AppCompatActivity {
         final Button popup_BTN_no = view.findViewById(R.id.popup_BTN_no);
         final ListView listView_ingredient = view.findViewById(R.id.listView_ingredient);
 
-        for(int i=0;i< recipe.getIngredient().size(); i++)
-            listIngridents.add( " "+recipe.getIngredient().get(i));
+        for (int i = 0; i < recipe.getIngredient().size(); i++)
+            listIngridents.add(" " + recipe.getIngredient().get(i));
         arrayAdapterIngridents = new ArrayAdapter(this, R.layout.mylist_new, listIngridents);
         popup_TXT_name.setText(recipe.getName());
         popupTXT_preparation_method.setText(recipe.getPreparation());
@@ -149,9 +148,8 @@ public class ReadRecipeAdds extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 String newNameStr = input.getText().toString();
                                 if (newNameStr.length() > 0) {
-                                    listIngridents.set(position, " "+newNameStr);
-                                }
-                                else
+                                    listIngridents.set(position, " " + newNameStr);
+                                } else
                                     listIngridents.remove(position);
 
                                 arrayAdapterIngridents.notifyDataSetChanged();
@@ -172,7 +170,8 @@ public class ReadRecipeAdds extends AppCompatActivity {
 
                                 listIngridents.remove(position);
                                 arrayAdapterIngridents.notifyDataSetChanged();
-                                dialog.dismiss();                            }
+                                dialog.dismiss();
+                            }
                         });
 
                 alertDialog.show();
@@ -181,12 +180,11 @@ public class ReadRecipeAdds extends AppCompatActivity {
         });
 
 
-
         addIngradient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                listIngridents.add(" "+popup_TXT_title_ingredient.getText());
+                listIngridents.add(" " + popup_TXT_title_ingredient.getText());
 
                 arrayAdapterIngridents.notifyDataSetChanged();
                 popup_TXT_title_ingredient.setText("");
@@ -198,8 +196,8 @@ public class ReadRecipeAdds extends AppCompatActivity {
             public void onClick(View v) {
                 recipe.setName(popup_TXT_name.getText().toString());
                 recipe.setPreparation(popupTXT_preparation_method.getText().toString());
-                recipe.setIngredient((ArrayList)listIngridents);
-                account.updateRecipesAdds(recipe,recipeIndex);
+                recipe.setIngredient((ArrayList) listIngridents);
+                account.updateRecipesAdds(recipe, recipeIndex);
                 myRef.child("Users").child(account.getUserPhoneNumber()).setValue(account);
                 putOnMSP();
                 getFromMSP();
@@ -216,12 +214,13 @@ public class ReadRecipeAdds extends AppCompatActivity {
         });
 
 
-}
-    private String print(Recipe recipe){
+    }
+
+    private String print(Recipe recipe) {
         return recipe.getName() + ":\n" + recipe.toString();
     }
 
-    private void share(){
+    private void share() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, print(recipe));
@@ -238,7 +237,7 @@ public class ReadRecipeAdds extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         account.getRecipesAdds().remove(recipeIndex);
-                        myRef.child("Users").child(account.getUserPhoneNumber()).child("Adds").setValue( account.getRecipesAdds());
+                        myRef.child("Users").child(account.getUserPhoneNumber()).child("Adds").setValue(account.getRecipesAdds());
                         putOnMSP();
                         openActivityAdds();
                     }
@@ -272,7 +271,7 @@ public class ReadRecipeAdds extends AppCompatActivity {
 
     private void findViews(View view) {
         read_LIST_all_ingredints = findViewById(R.id.read_LIST_all_ingredints);
-        read_TXT_lavels = findViewById(R.id.read_TXT_lavels);
+        read_title_lavels = findViewById(R.id.read_title_lavels);
         read_title = findViewById(R.id.read_title);
         list_remove = findViewById(R.id.list_remove);
         list_edit = findViewById(R.id.list_edit);
@@ -288,7 +287,7 @@ public class ReadRecipeAdds extends AppCompatActivity {
 
 
         for (int i = 0; i < recipe.getIngredient().size(); i++) {
-            listNew.add(" "+recipe.getIngredient().get(i));
+            listNew.add(" " + recipe.getIngredient().get(i));
         }
 
 
@@ -302,8 +301,6 @@ public class ReadRecipeAdds extends AppCompatActivity {
         msp.putString(KEY_Account, accountTemp);
 
     }
-
-
 
 
     private int getIndex(Recipe recipe) {
