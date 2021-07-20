@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
 import com.example.cookbook.data.MySheredP;
-import com.example.cookbook.data.Recipe;
 import com.example.cookbook.data.allAccounts;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,8 +35,7 @@ public class allRecipe extends AppCompatActivity {
     private Account account = new Account();
     private MySheredP msp;
     private Gson gson = new Gson();
-    private Button all_BTN_first,all_BTN_adds,all_BTN_main,all_BTN_dessert,back;
-    private View view;
+    private Button all_BTN_first,all_BTN_adds,all_BTN_main,all_BTN_dessert,back,all_BTN_favorites,all_BTN_favoritesSelected,all_BTN_fromHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +45,14 @@ public class allRecipe extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_all_recipe);
 
-        findViews(view);
+        findViews();
 
         msp = new MySheredP(this);
 
         uuid = android.provider.Settings.Secure.getString(
                 this.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
-        initListData();
+//        initListData();
         all_BTN_dessert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +67,13 @@ public class allRecipe extends AppCompatActivity {
                 openNewActivityMain();
             }
         });
-
+        all_BTN_fromHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), IngredientsFromKitchen.class);
+                startActivity(intent);
+            }
+        });
         all_BTN_first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,17 +94,33 @@ public class allRecipe extends AppCompatActivity {
                 openNewActivityRecipesMain();
             }
         });
-
-
+        all_BTN_favorites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FavoritesActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        all_BTN_favoritesSelected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Recipes_Favorites.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
-    private void findViews(View view) {
+    private void findViews() {
         all_BTN_first = findViewById(R.id.all_BTN_first);
         all_BTN_adds = findViewById(R.id.all_BTN_adds);
         all_BTN_main = findViewById(R.id.all_BTN_main);
         all_BTN_dessert = findViewById(R.id.all_BTN_dessert);
+        all_BTN_favorites = findViewById(R.id.all_BTN_favorites);
         back = findViewById(R.id.back);
-
+        all_BTN_favoritesSelected = findViewById(R.id.all_BTN_favoritesSelected);
+        all_BTN_fromHome = findViewById(R.id.all_BTN_fromHome);
     }
 
     private void openNewActivityFirsts() {
@@ -116,7 +136,7 @@ public class allRecipe extends AppCompatActivity {
     }
 
     private void openNewActivityRecipesMain() {
-        Intent intent = new Intent(this, Recipes_Main.class);
+        Intent intent = new Intent(this, com.example.cookbook.activity.Recipes_Main.class);
         startActivity(intent);
         finish();
     }
@@ -140,145 +160,34 @@ public class allRecipe extends AppCompatActivity {
 
 
     private void initListData() {
-
-        // Read from the database
-
         myRef.child("Users").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
                 if (dataSnapshot.getValue() != null) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         Account tempAccount = ds.getValue(Account.class);
                         allAccounts.add(tempAccount);
-
                     }
-                    tempAllAccounts.setAllAccounts(allAccounts);
-                    account = tempAllAccounts.getAccountByUUid(uuid);
-
+                    if (tempAllAccounts != null) {
+                        tempAllAccounts.setAllAccounts(allAccounts);
+                        account = tempAllAccounts.getAccountByUUid(uuid);
+                        putOnMSP();
+                    }
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
-
         });
-
-
     }
-
-    public void readRecipeFirsts() {
-        myRef.child("Users").child(account.getUserPhoneNumber()).child("Firsts").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                if (dataSnapshot.getValue() != null) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Recipe tempRecipe = ds.getValue(Recipe.class);
-                        account.addToFirsts(tempRecipe);
-
-                    }
-
-                    putOnMSP();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        });
-
-    }
-
-    public void readRecipeAdds() {
-        myRef.child("Users").child(account.getUserPhoneNumber()).child("Adds").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                if (dataSnapshot.getValue() != null) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Recipe tempRecipe = ds.getValue(Recipe.class);
-                        account.addToAdds(tempRecipe);
-
-                    }
-
-                    putOnMSP();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        });
-
-    }
-
-    public void readRecipeDesert() {
-        myRef.child("Users").child(account.getUserPhoneNumber()).child("Dessert").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                if (dataSnapshot.getValue() != null) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Recipe tempRecipe = ds.getValue(Recipe.class);
-                        account.addToDessert(tempRecipe);
-
-                    }
-
-                   putOnMSP();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        });
-
-    }
-
-    public void readRecipeMain() {
-        myRef.child("Users").child(account.getUserPhoneNumber()).child("Main").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                if (dataSnapshot.getValue() != null) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Recipe tempRecipe = ds.getValue(Recipe.class);
-                        account.addToMain(tempRecipe);
-
-                    }
-
-                    putOnMSP();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        });
-
-    }
-
 
     private void putOnMSP() {
+        if(account == null) {
+            account = new Account(getContentResolver());
+        }
         String accountTemp = gson.toJson(account);
         msp.putString(KEY_Account, accountTemp);
-
     }
 
 

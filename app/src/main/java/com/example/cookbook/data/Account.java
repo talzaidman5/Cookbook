@@ -1,5 +1,7 @@
 package com.example.cookbook.data;
 
+import android.content.ContentResolver;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -24,6 +26,14 @@ public class Account {
 
     public Account(String data) {
         this(createAccountFromString(data));
+    }
+    public Account(ContentResolver content) {
+        this.recipesMain = new ArrayList<Recipe>();
+        this.recipesFirsts = new ArrayList<Recipe>();
+        this.recipesDessert = new ArrayList<Recipe>();
+        this.recipesAdds = new ArrayList<Recipe>();
+        this.uuidAccount = android.provider.Settings.Secure.getString(
+                content, android.provider.Settings.Secure.ANDROID_ID);
     }
 
 

@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/img_no_logo"
+    android:background="@drawable/low"
     tools:context=".activity.allRecipe">
+
 
 
     <ImageView
@@ -17,26 +18,31 @@
 
     <Button
         android:id="@+id/back"
-        android:layout_width="20dp"
-        android:layout_height="10dp"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
         android:layout_marginTop="12dp"
         android:layout_marginLeft="15dp"
         android:background="@drawable/img_back"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/logo"
+        android:layout_marginBottom="10dp">
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
             android:id="@+id/all_LINEAR">
 
             <Button
                 android:id="@+id/all_BTN_first"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="100dp"
                 android:background="@drawable/img_first"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
@@ -47,7 +53,7 @@
             <Button
                 android:id="@+id/all_BTN_adds"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="100dp"
                 android:background="@drawable/img_adds"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
@@ -57,7 +63,7 @@
             <Button
                 android:id="@+id/all_BTN_main"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="100dp"
                 android:background="@drawable/img_main"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
@@ -67,17 +73,45 @@
             <Button
                 android:id="@+id/all_BTN_dessert"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="100dp"
                 android:background="@drawable/img_dessert"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
 
                 />
 
+            <Button
+                android:id="@+id/all_BTN_fromHome"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/add_to_favourite"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+
+                />
+            <Button
+                android:id="@+id/all_BTN_favorites"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/favourite_button"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+
+                />
+            <Button
+                android:id="@+id/all_BTN_favoritesSelected"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/add_to"
+                android:layout_margin="3dp"
+                android:layout_weight="1"
+
+                />
+
+
         </LinearLayout>
 
 
-
-
+    </ScrollView>
 
 </RelativeLayout>

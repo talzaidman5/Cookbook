@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
+import com.example.cookbook.data.KEYS;
 import com.example.cookbook.data.MySheredP;
 import com.example.cookbook.data.Recipe;
 import com.google.gson.Gson;
@@ -41,7 +42,7 @@ public class newRecipeImg extends AppCompatActivity {
     private Gson gson = new Gson();
     Bitmap selectedImage;
 
-    public static final String KEY_Account = "account";
+    public static final String KEY_Account = KEYS.KEY_Account;
     private Account account;
 
 

@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,44 +26,39 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
+import com.example.cookbook.data.KEYS;
 import com.example.cookbook.data.MySheredP;
 import com.example.cookbook.data.Recipe;
 import com.example.cookbook.data.allAccounts;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 
 public class newRecipe extends AppCompatActivity {
-    private Spinner type;
+    private Spinner new_SPN_type;
     private EditText new_EDIT_name;
-    private EditText new_EDIT_ingredient, popupTXT_preparation_method;
+    private EditText popupTXT_preparation_method;
     private Button new_BTN_add, new_add_one_ingr, back;
     private Recipe newRecipe;
     private ListView listView_ingredient;
     private ArrayList<String> stringArrayList;
     ArrayAdapter<String> stringArrayAdapter;
-    private View view;
-
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
-    private ArrayList<Account> allAccounts = new ArrayList<>();
-    private com.example.cookbook.data.allAccounts tempAllAccounts;
-    private Account account = new Account();
+    private Spinner new_SPN_ingredient;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("message");
     private String uuid;
 
+    private ArrayList<Account> allAccounts = new ArrayList<>();
+    private allAccounts tempAllAccounts;
+    private Account account = new Account();
+    private int counter = 0;
     private MySheredP msp;
     private Gson gson = new Gson();
-    public static final String KEY_Account = "account";
-
-    public newRecipe() {
-        tempAllAccounts = new allAccounts();
-    }
+    public static final String KEY_Account = KEYS.KEY_Account;
 
 
     @Override
@@ -73,90 +69,69 @@ public class newRecipe extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_new_recipe);
         msp = new MySheredP(this);
-
         uuid = android.provider.Settings.Secure.getString(
                 this.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
 
-        findViews(view);
+        findViews();
 
-        readFromDB();
+        getFromMSP();
+
 
         stringArrayList = new ArrayList<>();
         stringArrayAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, stringArrayList);
 
 
         listView_ingredient.setAdapter(stringArrayAdapter);
+
+        stringArrayList = new ArrayList<>();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, stringArrayList);
+
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        new_SPN_ingredient.setAdapter(adapter);
+
+        new_SPN_ingredient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                counter++;
+                if (counter > 1) {
+                    String text = parent.getItemAtPosition(position).toString();
+                    listView_ingredient.setCacheColorHint(Color.WHITE);
+                    stringArrayList.add(text);
+                    stringArrayAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         new_add_one_ingr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                listView_ingredient.setCacheColorHint(Color.WHITE);
-                stringArrayList.add(new_EDIT_ingredient.getText().toString());
-                stringArrayAdapter.notifyDataSetChanged();
-                new_EDIT_ingredient.getText().clear();
+                openAlert();
             }
         });
 
         listView_ingredient.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                AlertDialog alertDialog = new AlertDialog.Builder(newRecipe.this).create();
-                alertDialog.setTitle("עריכה");
-
-                final EditText input = new EditText(newRecipe.this);
-                String all = stringArrayList.get(position);
-
-
-                input.setText(all);
-                alertDialog.setView(input);
-
-                alertDialog.setMessage(" האם ברצונך לערוך את המצרך? ");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "שמור",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                String newNameStr = input.getText().toString();
-                                if (newNameStr.length() > 0) {
-                                    stringArrayList.set(position, newNameStr);
-                                } else
-                                    stringArrayList.remove(position);
-
-                                stringArrayAdapter.notifyDataSetChanged();
-                                dialog.dismiss();
-                            }
-                        });
-
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ביטול",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "מחיקה",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                stringArrayList.remove(position);
-                                stringArrayAdapter.notifyDataSetChanged();
-                                dialog.dismiss();
-                            }
-                        });
-
-                alertDialog.show();
-
+                openEditAlert(position);
             }
         });
 
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.type, R.layout.sppiner_style);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        type.setAdapter(adapter);
-        type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ArrayAdapter<CharSequence> adapterType = ArrayAdapter.createFromResource(this, R.array.type, R.layout.sppiner_style);
+        adapterType.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        new_SPN_type.setAdapter(adapterType);
+        new_SPN_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String text = parent.getItemAtPosition(position).toString();
@@ -181,7 +156,6 @@ public class newRecipe extends AppCompatActivity {
 
                 else {
                     new_EDIT_name.setError(" כותרת קיימת ");
-
                 }
             }
 
@@ -195,49 +169,110 @@ public class newRecipe extends AppCompatActivity {
         });
     }
 
+    private void openEditAlert(int position) {
+        AlertDialog alertDialog = new AlertDialog.Builder(newRecipe.this).create();
+        alertDialog.setTitle("עריכה");
 
-    private void readFromDB() {
-        // Read from the database
-        myRef.child("Users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        final EditText input = new EditText(newRecipe.this);
+        String all = stringArrayList.get(position);
 
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                if (dataSnapshot.getValue() != null) {
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        Account tempAccount = ds.getValue(Account.class);
-                        allAccounts.add(tempAccount);
+
+        input.setText(all);
+        alertDialog.setView(input);
+
+        alertDialog.setMessage(" האם ברצונך לערוך את המצרך? ");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "שמור",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String newNameStr = input.getText().toString();
+                        if (newNameStr.length() > 0) {
+                            stringArrayList.set(position, newNameStr);
+                        } else
+                            stringArrayList.remove(position);
+
+                        stringArrayAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
                     }
-                    tempAllAccounts.setAllAccounts(allAccounts);
-                    account = tempAllAccounts.getAccountByUUid(uuid);
-                }
+                });
 
-            }
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "ביטול",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("or", "Failed to read value.", error.toException());
-            }
-        });
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "מחיקה",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        stringArrayList.remove(position);
+                        stringArrayAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+
+        alertDialog.show();
 
     }
 
-    private void findViews(View view) {
-        type = findViewById(R.id.type);
+    private void openAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(newRecipe.this);
+        alertDialog.setTitle("הוספת מרכיב חדש");
+        alertDialog.setMessage("הכנס את שם הרכיב");
+
+        final EditText input = new EditText(newRecipe.this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+
+
+        alertDialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String ingredient = input.getText().toString();
+                        if (ingredient.length()>0) {
+                            listView_ingredient.setCacheColorHint(Color.WHITE);
+                            stringArrayList.add(ingredient.toString());
+                            stringArrayAdapter.notifyDataSetChanged();
+                        }
+                        putOnMSP();
+                    }
+                });
+
+        alertDialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    private void getFromMSP() {
+
+        String data = msp.getString(KEY_Account, "NA");
+
+        account = new Account(data);
+
+    }
+
+
+    private void findViews() {
+        new_SPN_type = findViewById(R.id.new_SPN_type);
         new_EDIT_name = findViewById(R.id.new_EDIT_name);
         new_BTN_add = findViewById(R.id.new_BTN_add);
         new_add_one_ingr = findViewById(R.id.new_add_one_ingr);
         listView_ingredient = findViewById(R.id.listView_ingredient);
-        new_EDIT_ingredient = findViewById(R.id.new_EDIT_ingredient);
+        new_SPN_ingredient = findViewById(R.id.new_SPN_ingredient);
         popupTXT_preparation_method = findViewById(R.id.popupTXT_preparation_method);
         back = findViewById(R.id.back);
     }
 
 
     private void buildRecipe() {
-        int typeNew = (int) type.getSelectedItemId();
+        int typeNew = (int) new_SPN_type.getSelectedItemId();
         newRecipe = new Recipe(new_EDIT_name.getText().toString(), typeNew, stringArrayList, popupTXT_preparation_method.getText().toString());
         if (typeNew == 3)
             account.addToDessert(newRecipe);
@@ -251,9 +286,6 @@ public class newRecipe extends AppCompatActivity {
 
         if (typeNew == 2)
             account.addToAdds(newRecipe);
-
-
-        //  myRef.child("Users").child(account.getUserPhoneNumber()).setValue(account);
 
         putOnMSP();
     }
@@ -272,13 +304,14 @@ public class newRecipe extends AppCompatActivity {
     private void putOnMSP() {
         String accountTemp = gson.toJson(account);
         msp.putString(KEY_Account, accountTemp);
+        myRef.child("Users").child(uuid).setValue(account);
 
     }
 
     private int checkNullName() {
         if (new_EDIT_name.getText().length() == 0)
             return 1;
-        String typeSelected = type.getSelectedItem().toString();
+        String typeSelected = new_SPN_type.getSelectedItem().toString();
         if (typeSelected.equals("ראשונות"))
             for (int i = 0; i < account.getRecipesFirsts().size(); i++) {
                 if (account.getRecipesFirsts().get(i).getName().equals(new_EDIT_name.getText().toString()))

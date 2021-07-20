@@ -12,6 +12,7 @@ import android.widget.ListView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cookbook.data.KEYS;
 import com.google.gson.Gson;
 import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
@@ -23,7 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Recipes_Main extends AppCompatActivity {
-    private static final String KEY_RECIPE = "Recipe";
+    private static final String KEY_RECIPE= KEYS.KEY_RECIPE;
 
     private ListView main_all;
     private MainAdapterRecipes adapter;
@@ -31,7 +32,7 @@ public class Recipes_Main extends AppCompatActivity {
     private String uuid;
     private MySheredP msp;
     private Gson gson = new Gson();
-    public static final String KEY_Account = "account";
+    public static final String KEY_Account = KEYS.KEY_Account;
     private Account account;
     private Recipe chosenRecipe;
     private List listNew = new ArrayList();
@@ -73,18 +74,14 @@ public class Recipes_Main extends AppCompatActivity {
                 openNewActivityMain();
             }
         });
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openNewActivityNewRecipe();
-            }
-        });
-    }
 
-    private void openNewActivityNewRecipe() {
-        Intent intent = new Intent(this, newRecipe.class);
-        startActivity(intent);
-        finish();
+        add.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+                                       openNewActivityNewRecipe();
+                                   }
+                               }
+        );
     }
 
     public void findViews(View view) {
@@ -106,6 +103,12 @@ public class Recipes_Main extends AppCompatActivity {
     }
 
 
+    private void openNewActivityNewRecipe() {
+        Intent intent = new Intent(this, newRecipe.class);
+        startActivity(intent);
+        finish();
+    }
+
     private void openNewActivityReadRecipe() {
         Intent intent = new Intent(this, ReadRecipeMain.class);
         String s = new Gson().toJson(chosenRecipe);
@@ -115,19 +118,16 @@ public class Recipes_Main extends AppCompatActivity {
     }
 
 
-
     private void putOnMSP() {
 
         String accountTemp = gson.toJson(account);
         msp.putString(KEY_Account, accountTemp);
+
     }
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getFromMSP() {
-
         String data = msp.getString(KEY_Account, "NA");
         account = new Account(data);
 
@@ -139,15 +139,13 @@ public class Recipes_Main extends AppCompatActivity {
         adapter = new MainAdapterRecipes(this, listNew, uuid);
         main_all.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private List checkDoubles() {
         HashSet<String> hashSet = new HashSet<String>();
         hashSet.addAll(listNew);
         listNew.clear();
         listNew.addAll(hashSet);
-        return   listNew;
+        return listNew;
     }
 }

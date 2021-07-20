@@ -12,6 +12,7 @@ import android.widget.ListView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.cookbook.data.KEYS;
 import com.google.gson.Gson;
 import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
@@ -24,8 +25,8 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Recipes_Firsts extends AppCompatActivity {
-    private static final String KEY_RECIPE = "Recipe";
-    public static final String KEY_Account = "account";
+    private static final String KEY_RECIPE = KEYS.KEY_RECIPE;
+    public static final String KEY_Account =KEYS.KEY_Account;
 
     private ListView first_all;
     private View view;
@@ -52,11 +53,6 @@ public class Recipes_Firsts extends AppCompatActivity {
         msp = new MySheredP(this);
 
         findViews(view);
-
-        adapter = new MainAdapterRecipes(this, listNew, uuid);
-        first_all.setAdapter(adapter);
-
-
         getFromMSP();
 
         first_all.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,25 +67,27 @@ public class Recipes_Firsts extends AppCompatActivity {
 
         });
 
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openNewActivityNewRecipe();
-            }
-        });
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openNewActivityMain();
             }
         });
+
+        add.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+                                       openNewActivityNewRecipe();
+                                   }
+                               }
+        );
     }
 
     public void findViews(View view) {
         first_all = findViewById(R.id.first_all);
         back = findViewById(R.id.back);
         add = findViewById(R.id.add);
+
     }
 
     @Override
@@ -102,6 +100,7 @@ public class Recipes_Firsts extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
 
     private void openNewActivityNewRecipe() {
         Intent intent = new Intent(this, newRecipe.class);
@@ -128,7 +127,6 @@ public class Recipes_Firsts extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getFromMSP() {
-
         String data = msp.getString(KEY_Account, "NA");
         account = new Account(data);
 
@@ -140,16 +138,13 @@ public class Recipes_Firsts extends AppCompatActivity {
         adapter = new MainAdapterRecipes(this, listNew, uuid);
         first_all.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
     }
 
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private List checkDoubles() {
         HashSet<String> hashSet = new HashSet<String>();
         hashSet.addAll(listNew);
         listNew.clear();
         listNew.addAll(hashSet);
-      return   listNew;
+        return listNew;
     }
 }

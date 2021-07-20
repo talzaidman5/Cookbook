@@ -4,9 +4,11 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,6 +20,7 @@ public class Recipe {
     private ArrayList<String> ingredient = new ArrayList<>();
     private String preparation;
     private Bitmap imageRecipe;
+    private String image;
     private boolean isImage;
 
     public Recipe(String name, int type, ArrayList<String> ingredient, String preparation) {
@@ -45,20 +48,23 @@ public class Recipe {
         this.type = type;
         this.imageRecipe = image;
         this.isImage = true;
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+        byte[] compressImage = baos.toByteArray();
+        String sEncodedImage = Base64.encodeToString(compressImage, Base64.DEFAULT);
+
+        this.image = sEncodedImage;
     }
 
+//    public boolean isImage() {
+//        return isImage;
+//    }
 
-    public String RecipesToString(Recipe temp) {
-        return temp.getName() + ": \n" + temp.toString();
-
+    public String getImage() {
+        return image;
     }
-
-
-    public String RecipesToString() {
-        return this.name + ": \n" + this.toString();
-
-    }
-
 
     public String getName() {
         return name;
@@ -68,13 +74,6 @@ public class Recipe {
         this.name = name;
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
 
     public List<String> getIngredient() {
         return ingredient;
@@ -124,11 +123,16 @@ public class Recipe {
             return imageRecipe;
     }
 
+    public Bitmap getImageRecipe() {
+        return imageRecipe;
+    }
 
+    public void setImageRecipe(Bitmap imageRecipe) {
+        this.imageRecipe = imageRecipe;
+    }
 
     public List toStringOr() {
         List res = new ArrayList();
-
         res.add("מצרכים: ");
         for (int i = 0; i < ingredient.size(); i++) {
             res.add(ingredient.get(i));

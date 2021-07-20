@@ -31,7 +31,7 @@ public class MainAdapterRecipes extends BaseAdapter {
     private String uuid;
     private MySheredP msp;
     private Gson gson = new Gson();
-    public static final String KEY_Account = "account";
+    public static final String KEY_Account = KEYS.KEY_Account;
 
 
 

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/img_no_logo"
+    tools:context=".activity.ReadRecipeAdds">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/_110sdp"
+        android:layout_height="@dimen/_60sdp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/img_logo" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/img_back" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/img_notepad">
+
+        <TextView
+            android:id="@+id/read_TNT_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:textColor="#000000"
+            android:text="orrrr"
+            android:textSize="@dimen/_19sdp" />
+
+
+
+        <ImageView
+            android:id="@+id/read_title_lavels"
+            android:layout_width="300dp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_above="@+id/buttons"
+            android:layout_below="@+id/read_TNT_name"
+            android:layout_centerInParent="true"
+            android:foregroundGravity="right"
+            android:layout_marginRight="35dp" />
+
+        <RelativeLayout
+            android:id="@+id/buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+
+            >
+
+            <Button
+                android:id="@+id/list_remove"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:background="@drawable/erease" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

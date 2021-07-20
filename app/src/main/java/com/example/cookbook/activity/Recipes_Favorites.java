@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,63 +14,54 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookbook.R;
-import com.example.cookbook.data.Account;
-import com.example.cookbook.data.KEYS;
 import com.example.cookbook.data.MainAdapterRecipes;
 import com.example.cookbook.data.MySheredP;
 import com.example.cookbook.data.Recipe;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class Recipes_Adds extends AppCompatActivity {
-
-    private static final String KEY_RECIPE = KEYS.KEY_RECIPE;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
-    private View view;
+public class Recipes_Favorites extends AppCompatActivity {
+    private static final String KEY_RECIPE = "Recipe";
+    private ListView dessert_recipe;
+    private MainAdapterRecipes adapter;
     private String uuid;
     private MySheredP msp;
     private Gson gson = new Gson();
-    public static final String KEY_Account = KEYS.KEY_Account;
-    private Account account;
-    private ListView adds_all_new;
-    private MainAdapterRecipes adapter;
-    private List listNew = new ArrayList();
     private Recipe chosenRecipe;
-    private Button back, add;
+    private List listNew = new ArrayList();
+    private Button back,add;
+    private ArrayList<String> favoritesRecipe = new ArrayList<String>();
+    public static final String KEY_FavoritesSelected = "favoritesSelected";
+    private Recipe[] allRecipes;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_recipes_adds);
+        setContentView(R.layout.activity_recipes_favorites);
 
         uuid = android.provider.Settings.Secure.getString(
                 this.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         msp = new MySheredP(this);
 
-        findViews(view);
-
+        findViews();
         getFromMSP();
 
-        adds_all_new.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dessert_recipe.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String tempName = listNew.get(position).toString();
-
-                chosenRecipe = account.getRecipeByNameAdds(tempName);
+                chosenRecipe = getRecipeByNameDessert(tempName);
                 openNewActivityReadRecipe();
             }
-
-
         });
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,18 +69,21 @@ public class Recipes_Adds extends AppCompatActivity {
                 openNewActivityMain();
             }
         });
-
         add.setOnClickListener(new View.OnClickListener() {
-                                   @Override
-                                   public void onClick(View v) {
-                                       openNewActivityNewRecipe();
-                                   }
-                               }
-        );
+            @Override
+            public void onClick(View v) {
+                openNewActivityNewRecipe();
+            }
+        });
     }
 
-    public void findViews(View view) {
-        adds_all_new = findViewById(R.id.adds_all_new);
+    private void openNewActivityNewRecipe() {
+        Intent intent = new Intent(this, newRecipe.class);
+        startActivity(intent);
+        finish();
+    }
+    public void findViews() {
+        dessert_recipe = findViewById(R.id.dessert_recipe);
         back = findViewById(R.id.back);
         add = findViewById(R.id.add);
 
@@ -106,47 +101,44 @@ public class Recipes_Adds extends AppCompatActivity {
     }
 
 
-    private void openNewActivityNewRecipe() {
-        Intent intent = new Intent(this, newRecipe.class);
-        startActivity(intent);
-        finish();
-    }
-
     private void openNewActivityReadRecipe() {
-        Intent intent = new Intent(this, ReadRecipeAdds.class);
+        Intent intent = new Intent(this, ReadRecipeFavorites.class);
         String s = new Gson().toJson(chosenRecipe);
         intent.putExtra(KEY_RECIPE, s);
         startActivity(intent);
         finish();
     }
 
-
-    private void putOnMSP() {
-
-        String accountTemp = gson.toJson(account);
-        msp.putString(KEY_Account, accountTemp);
-
-    }
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void getFromMSP() {
 
-        String data = msp.getString(KEY_Account, "NA");
-        account = new Account(data);
+       String temp = msp.getString(FavoritesActivity.KEY_RecipeList, "NA");
+        if(temp!= "NA") {
+             allRecipes = gson.fromJson(temp, Recipe[].class);
 
-        for (int i = 0; i < account.getRecipesAdds().size(); i++) {
-            listNew.add(account.getRecipesAdds().get(i).getName());
+            String favoritesSelected = msp.getString(KEY_FavoritesSelected, "NA");
+            if(!favoritesSelected.equals("NA"))
+                favoritesRecipe = gson.fromJson(favoritesSelected, ArrayList.class);
+
+            for (int i = 0; i < favoritesRecipe.size(); i++) {
+                listNew.add(favoritesRecipe.get(i));
+            }
+            listNew = checkDoubles();
+
+            adapter = new MainAdapterRecipes(this, listNew, uuid);
+            dessert_recipe.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
         }
-        listNew = checkDoubles();
-
-        adapter = new MainAdapterRecipes(this, listNew, uuid);
-        adds_all_new.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
     }
-
+    public Recipe getRecipeByNameDessert(String name) {
+        for (int i = 0; i < allRecipes.length; i++)
+            if (allRecipes[i].getName().equals(name))
+                return allRecipes[i];
+        return null;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private List checkDoubles() {
+
         HashSet<String> hashSet = new HashSet<String>();
         hashSet.addAll(listNew);
         listNew.clear();

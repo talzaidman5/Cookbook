@@ -20,17 +20,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    <activity android:name=".activity.newRecipe"></activity>
-    <activity android:name=".activity.newRecipeImg"></activity>
-    <activity android:name=".activity.Recipes_Main"></activity>
-    <activity android:name=".activity.ReadRecipeMain"></activity>
-    <activity android:name=".activity.ReadRecipeDessert"></activity>
+        <activity android:name=".activity.newRecipe"></activity>
+        <activity android:name=".activity.newRecipeImg"></activity>
+        <activity android:name=".activity.Recipes_Main"></activity>
+        <activity android:name=".activity.ReadRecipeMain"></activity>
+        <activity android:name=".activity.ReadRecipeDessert"></activity>
         <activity android:name=".activity.allRecipe"></activity>
-    <activity android:name=".activity.ReadRecipeAdds"></activity>
-    <activity android:name=".activity.ReadRecipeFirsts"></activity>
-    <activity android:name=".activity.Recipes_Adds"></activity>
-    <activity android:name=".activity.Recipes_Firsts"></activity>
-    <activity android:name=".activity.Recipes_Dessert"></activity>
+        <activity android:name=".activity.ReadRecipeAdds"></activity>
+        <activity android:name=".activity.ReadRecipeFirsts"></activity>
+        <activity android:name=".activity.Recipes_Adds"></activity>
+        <activity android:name=".activity.Recipes_Firsts"></activity>
+        <activity android:name=".activity.Recipes_Dessert"></activity>
+        <activity android:name=".activity.IngredientsFromKitchen" />
+        <activity android:name=".activity.ReadRecipeFavorites" />
+        <activity android:name=".activity.FavoritesActivity" />
+        <activity android:name=".activity.Recipes_Favorites" />
+
     </application>
 
 </manifest>

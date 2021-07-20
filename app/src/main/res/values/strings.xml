@@ -7,9 +7,10 @@
         <item> עיקריות </item>
         <item> תוספות </item>
         <item>  קינוחים </item>
-
-
     </string-array>
+
+
+
     <string name="title_activity_breake_game">breakeGame</string>
     <string name="action_settings">Settings</string>
 

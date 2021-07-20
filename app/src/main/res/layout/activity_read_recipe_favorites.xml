@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/img_no_logo"
-    tools:context=".activity.ReadRecipeAdds">
-
+    tools:context=".activity.read_recipe.ReadRecipeAdds">
     <ImageView
         android:layout_width="@dimen/_110sdp"
         android:layout_height="@dimen/_60sdp"
@@ -31,8 +30,6 @@
         android:layout_below="@+id/logo"
         >
 
-
-
         <TextView
             android:id="@+id/read_title"
             android:layout_width="wrap_content"
@@ -52,7 +49,6 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="35dp"
             android:src="@drawable/line"/>
-
 
 
         <TextView
@@ -84,26 +80,28 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="35dp"
             android:text="שלבי הכנה:"/>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/read_title_lavels"
-    android:layout_above="@+id/buttons"
-android:layout_alignParentRight="true"
-    android:id="@+id/scroll">
-        <TextView
-            android:id="@+id/read_TXT_lavels"
-            android:layout_width="fill_parent"
-            android:layout_height="@dimen/_80sdp"
-            android:textSize="18dp"
-            android:textColor="#000000"
-            android:layout_below="@id/read_title_lavels"
-            android:fontFamily="@font/hebrow_lior"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="35dp"
-            android:text=""/>
 
-</ScrollView >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/read_title_lavels"
+            android:layout_above="@+id/buttons"
+            android:layout_alignParentRight="true"
+            android:id="@+id/scroll">
+            <TextView
+                android:id="@+id/read_TXT_lavels"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/_80sdp"
+                android:textSize="18dp"
+                android:textColor="#000000"
+                android:layout_below="@id/read_title_lavels"
+                android:fontFamily="@font/hebrow_lior"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="35dp"
+                android:text=""/>
+
+        </ScrollView >
+
         <ImageView
             android:layout_width="95dp"
             android:layout_height="wrap_content"
@@ -112,20 +110,18 @@ android:layout_alignParentRight="true"
             android:layout_marginRight="35dp"
             android:src="@drawable/line"/>
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="6dp"
-    android:id="@+id/s"
-    android:layout_alignParentBottom="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="6dp"
+            android:id="@+id/s"
+            android:layout_alignParentBottom="true"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/s"
             android:layout_centerHorizontal="true"
-            android:id="@+id/buttons"
-            >
-
+            android:id="@+id/buttons">
             <Button
                 android:layout_alignParentLeft="true"
                 android:id="@+id/list_share"
@@ -134,27 +130,9 @@ android:layout_alignParentRight="true"
                 android:background="@drawable/share"
                 android:layout_marginLeft="50dp"
                 />
-
-            <Button
-                android:id="@+id/list_edit"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/edit"
-                android:layout_centerInParent="true"
-                />
-
-            <Button
-                android:id="@+id/list_remove"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:background="@drawable/erease"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="50dp"
-                />
-
         </RelativeLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>
