@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class Recipe {
+public class
+Recipe {
     private String name;
     private int type;
     private ArrayList<String> ingredient = new ArrayList<>();
@@ -109,7 +110,6 @@ public class Recipe {
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setTextSize(textSize);
             paint.setColor(textColor);
-            paint.setTextAlign(Paint.Align.CENTER);
             float baseline = -paint.ascent(); // ascent() is negative
 
             Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

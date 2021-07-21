@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
+import com.example.cookbook.data.KEYS;
 import com.example.cookbook.data.MainAdapterRecipes;
 import com.example.cookbook.data.MySheredP;
 import com.example.cookbook.data.Recipe;
@@ -25,12 +26,13 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Recipes_FromHomeInit extends AppCompatActivity {
-    private static final String KEY_RECIPE = "Recipe";
+    public static final String KEY_Account = KEYS.KEY_Account;
+    public static final String KEY_RECIPE = KEYS.KEY_RECIPE;
     private ListView dessert_recipe;
     private MainAdapterRecipes adapter;
     private String uuid;
     private MySheredP msp;
-    public static final String KEY_Account = "account";
+
     private Account account;
     private Recipe chosenRecipe;
     private List listNew = new ArrayList();

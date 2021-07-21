@@ -146,12 +146,8 @@ public class ReadRecipeFirsts extends AppCompatActivity {
     }
 
     private void putOnMSP() {
-
         String accountTemp = gson.toJson(account);
         msp.putString(KEY_Account, accountTemp);
-
-        myRef.child("Users").child(uuid).setValue(account);
-
     }
 
 

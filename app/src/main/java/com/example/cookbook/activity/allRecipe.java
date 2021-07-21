@@ -1,6 +1,7 @@
 package com.example.cookbook.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -8,10 +9,13 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.cookbook.R;
 import com.example.cookbook.data.Account;
+import com.example.cookbook.data.KEYS;
+import com.example.cookbook.data.MainAdapterRecipes;
 import com.example.cookbook.data.MySheredP;
 import com.example.cookbook.data.allAccounts;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +30,8 @@ import java.util.ArrayList;
 
 public class allRecipe extends AppCompatActivity {
 
-    public static final String KEY_Account = "account";
+    public static final String KEY_Account = KEYS.KEY_Account;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("message");
     public String uuid;
@@ -52,7 +57,9 @@ public class allRecipe extends AppCompatActivity {
         uuid = android.provider.Settings.Secure.getString(
                 this.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
-        initListData();
+//        initListData();
+        getFromMSP();
+
         all_BTN_dessert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +118,14 @@ public class allRecipe extends AppCompatActivity {
             }
         });
     }
+
+    private void getFromMSP() {
+
+        String data = msp.getString(KEY_Account, "NA");
+        account = new Account(data);
+
+    }
+
 
     private void findViews() {
         all_BTN_first = findViewById(R.id.all_BTN_first);

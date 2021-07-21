@@ -87,12 +87,12 @@ public class newRecipe extends AppCompatActivity {
 
         listView_ingredient.setAdapter(stringArrayAdapter);
 
-        stringArrayList = new ArrayList<>();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, stringArrayList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, account.getAllIngredients());
 
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         new_SPN_ingredient.setAdapter(adapter);
+
 
         new_SPN_ingredient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -235,13 +235,11 @@ public class newRecipe extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String ingredient = input.getText().toString();
                         if (ingredient.length()>0) {
-                            listView_ingredient.setCacheColorHint(Color.WHITE);
-                            stringArrayList.add(ingredient.toString());
-                            stringArrayAdapter.notifyDataSetChanged();
+                            String password = input.getText().toString();
+                            account.addIngredient(password);
+                            putOnMSP();
 
                         }
-                        putOnMSP();
-
                     }
                 });
 

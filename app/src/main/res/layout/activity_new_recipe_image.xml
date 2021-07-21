@@ -11,74 +11,75 @@
         android:id="@+id/new_IMG_logo"
         android:layout_width="@dimen/_110sdp"
         android:layout_height="@dimen/_60sdp"
-        android:src="@drawable/img_logo"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_centerHorizontal="true"/>
+        android:src="@drawable/img_logo" />
+
     <Button
         android:id="@+id/back"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
-        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginLeft="@dimen/_15sdp"
-        android:background="@drawable/img_back"/>
+        android:layout_marginTop="@dimen/_12sdp"
+        android:background="@drawable/img_back" />
+
     <TextView
         android:id="@+id/new_TXT_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_17sdp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/new_IMG_logo"
+        android:layout_centerHorizontal="true"
         android:fontFamily="@font/hebrow_lior"
+        android:text="מתכון חדש"
         android:textColor="#FFFFFF"
-        android:text="מתכון חדש"/>
+        android:textSize="@dimen/_17sdp" />
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/img_notepad"
-        android:layout_marginTop="@dimen/_25sdp"
-        android:layout_marginBottom="@dimen/_35sdp"
-        android:layout_marginLeft="@dimen/_25sdp"
-        android:layout_marginRight="@dimen/_25sdp"
         android:layout_below="@id/new_TXT_title"
-        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
+        android:background="@drawable/img_notepad"
         android:gravity="right"
-        >
+        android:orientation="vertical">
+
         <EditText
             android:id="@+id/new_TXT_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_19sdp"
-            android:fontFamily="@font/hebrow_lior"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginRight="@dimen/_35sdp"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:hint="כותרת: "
             android:textColor="#000000"
-            android:text="כותרת: "/>
+            android:textColorHint="#000000"
+            android:textSize="@dimen/_19sdp" />
 
         <TextView
+            android:id="@+id/type_TXT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="סוג:"
-            android:textSize="@dimen/_19sdp"
-            android:textColor="#000000"
-            android:id="@+id/type_TXT"
-            android:fontFamily="@font/hebrow_lior"
+            android:layout_below="@id/new_TXT_name"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/_35sdp"
-            android:layout_below="@id/new_TXT_name"
-            />
+            android:fontFamily="@font/hebrow_lior"
+            android:text="סוג:"
+            android:textColor="#000000"
+            android:textSize="@dimen/_19sdp" />
 
         <Spinner
             android:id="@+id/type"
             android:layout_width="@dimen/_80sdp"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:layout_marginRight="@dimen/_90sdp"
-            android:fontFamily="@font/hebrow_lior"
             android:layout_below="@id/new_TXT_name"
+            android:layout_marginRight="@dimen/_90sdp"
             android:background="@drawable/ttt"
+            android:fontFamily="@font/hebrow_lior"
+            android:textColor="#000000"
 
             />
 
@@ -87,21 +88,21 @@
             android:id="@+id/new_TXT_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/_19sdp"
-            android:fontFamily="@font/hebrow_lior"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/_35sdp"
             android:layout_marginTop="15dp"
+            android:layout_marginRight="@dimen/_35sdp"
+            android:fontFamily="@font/hebrow_lior"
+            android:text="העלאת תמונה: "
             android:textColor="#000000"
-            android:text="העלאת תמונה: "/>
+            android:textSize="@dimen/_19sdp" />
 
         <ImageView
-            android:layout_width="match_parent"
             android:id="@+id/imageView"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_below="@+id/new_TXT_name"
             android:adjustViewBounds="true"
             app:layout_collapseMode="parallax"
-            android:layout_below="@+id/new_TXT_name"
             app:layout_collapseParallaxMultiplier="0.7" />
 
 
@@ -109,12 +110,11 @@
             android:id="@+id/new_BTN_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/_80sdp"
-            android:textColor="#000000"
             android:layout_below="@id/new_TXT_name"
+            android:layout_marginRight="@dimen/_95sdp"
             android:background="@drawable/ttt"
-            android:text="הופסה"
-android:gravity="center"
+            android:text="הוספה"
+            android:textColor="#000000"
             />
 
 

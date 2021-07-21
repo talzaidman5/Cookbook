@@ -14,6 +14,7 @@ public class Account {
     private ArrayList<Recipe> recipesDessert;
     private ArrayList<Recipe> recipesAdds;
     private String uuidAccount;
+    private ArrayList<String> allIngredients;
 
 
     public Account() {
@@ -21,6 +22,11 @@ public class Account {
         recipesFirsts = new ArrayList<Recipe>();
         recipesDessert = new ArrayList<Recipe>();
         recipesAdds = new ArrayList<Recipe>();
+        allIngredients = new ArrayList<String>();
+        allIngredients.add("חלב");
+        allIngredients.add("שום");
+        allIngredients.add("חמאה");
+        allIngredients.add("וניל");
     }
 
 
@@ -34,6 +40,8 @@ public class Account {
         this.recipesAdds = new ArrayList<Recipe>();
         this.uuidAccount = android.provider.Settings.Secure.getString(
                 content, android.provider.Settings.Secure.ANDROID_ID);
+        this.allIngredients = new ArrayList<String>();
+
     }
 
 
@@ -44,6 +52,8 @@ public class Account {
         this.recipesMain = other.recipesMain;
         this.userPhoneNumber = other.userPhoneNumber;
         this.uuidAccount = other.uuidAccount;
+        this.allIngredients = other.allIngredients;
+
     }
 
     public static Account createAccountFromString(String data) {
@@ -60,6 +70,7 @@ public class Account {
     public Account(String userPhoneNumber, String uuidAccount) {
         this.uuidAccount = uuidAccount;
         this.userPhoneNumber = userPhoneNumber;
+        allIngredients = new ArrayList<String>();
 
         recipesMain = new ArrayList<Recipe>();
         recipesFirsts = new ArrayList<Recipe>();
@@ -74,7 +85,17 @@ public class Account {
         return null;
     }
 
+    public void addIngredient(String ingredient){
+        allIngredients.add(ingredient);
+    }
 
+    public ArrayList<String> getAllIngredients() {
+        return allIngredients;
+    }
+
+    public void setAllIngredients(ArrayList<String> allIngredients) {
+        this.allIngredients = allIngredients;
+    }
     public Recipe getRecipeByNameDessert(String name) {
         for (int i = 0; i < this.recipesDessert.size(); i++)
             if (this.recipesDessert.get(i).getName().equals(name))
