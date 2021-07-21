@@ -103,13 +103,13 @@ public class Recipe {
     public Bitmap textAsBitmap(int width, int height) {
 
         if (this.isImage == false) {
-            List<String> text = toStringOr();
-            int textSize = 100;
-            int textColor = Color.parseColor("#00ff00");
+            List<String> text = toStringRecipe();
+            int textSize = 80;
+            int textColor = Color.parseColor("#000000");
             Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setTextSize(textSize);
             paint.setColor(textColor);
-            paint.setTextAlign(Paint.Align.LEFT);
+            paint.setTextAlign(Paint.Align.CENTER);
             float baseline = -paint.ascent(); // ascent() is negative
 
             Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -131,7 +131,7 @@ public class Recipe {
         this.imageRecipe = imageRecipe;
     }
 
-    public List toStringOr() {
+    public List toStringRecipe() {
         List res = new ArrayList();
         res.add("מצרכים: ");
         for (int i = 0; i < ingredient.size(); i++) {

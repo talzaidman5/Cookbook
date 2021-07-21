@@ -87,8 +87,10 @@ public class ReadRecipeFirsts extends AppCompatActivity {
     private void getIndex() {
         getFromMSP();
         for (int i = 0; i < account.getRecipesFirsts().size(); i++) {
-            if (account.getRecipesFirsts().get(i).getName().equals(recipe.getName()))
+            if (account.getRecipesFirsts().get(i).getName().equals(recipe.getName())) {
                 recipeIndex = i;
+                return;
+            }
         }
         recipeIndex = -1;
     }

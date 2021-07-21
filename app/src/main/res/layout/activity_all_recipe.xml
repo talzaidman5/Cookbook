@@ -84,7 +84,7 @@
                 android:id="@+id/all_BTN_fromHome"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@drawable/add_to_favourite"
+                android:background="@drawable/img_from_home"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
 
@@ -93,7 +93,7 @@
                 android:id="@+id/all_BTN_favorites"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@drawable/favourite_button"
+                android:background="@drawable/add_to_favourite"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
 
@@ -102,7 +102,7 @@
                 android:id="@+id/all_BTN_favoritesSelected"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@drawable/add_to"
+                android:background="@drawable/favourite_button"
                 android:layout_margin="3dp"
                 android:layout_weight="1"
 

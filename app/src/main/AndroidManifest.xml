@@ -23,6 +23,7 @@
         <activity android:name=".activity.newRecipe"></activity>
         <activity android:name=".activity.newRecipeImg"></activity>
         <activity android:name=".activity.Recipes_Main"></activity>
+        <activity android:name=".activity.Recipes_FromHome"></activity>
         <activity android:name=".activity.ReadRecipeMain"></activity>
         <activity android:name=".activity.ReadRecipeDessert"></activity>
         <activity android:name=".activity.allRecipe"></activity>

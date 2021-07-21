@@ -43,7 +43,7 @@ public class Recipes_FromHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_recipes_first);
+        setContentView(R.layout.activity_recipes_from_home);
 
         uuid = android.provider.Settings.Secure.getString(
                 this.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
@@ -61,7 +61,6 @@ public class Recipes_FromHome extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String tempName = listNew.get(position).toString();
-
                 chosenRecipe = account.getRecipeByNameFirsts(tempName);
                 openNewActivityReadRecipe();
             }

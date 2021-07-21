@@ -83,7 +83,7 @@ public class Recipes_Favorites extends AppCompatActivity {
         finish();
     }
     public void findViews() {
-        dessert_recipe = findViewById(R.id.dessert_recipe);
+        dessert_recipe = findViewById(R.id.first_all);
         back = findViewById(R.id.back);
         add = findViewById(R.id.add);
 

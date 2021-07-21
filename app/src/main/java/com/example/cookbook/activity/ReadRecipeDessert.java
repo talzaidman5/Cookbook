@@ -152,7 +152,7 @@ public class ReadRecipeDessert extends AppCompatActivity {
     private void getIndex() {
         getFromMSP();
         for (int i = 0; i < account.getRecipesDessert().size(); i++) {
-            if (account.getRecipesMain().get(i).getName().equals(recipe.getName()))
+            if (account.getRecipesDessert().get(i).getName().equals(recipe.getName()))
                 recipeIndex = i;
         }
         recipeIndex = -1;
