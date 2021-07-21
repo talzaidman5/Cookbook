@@ -33,6 +33,7 @@ public class ReadRecipeFirsts extends AppCompatActivity {
     public static final String KEY_Account = KEYS.KEY_Account;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("message");
+    private String uuid;
 
     private TextView read_TNT_name;
     private ImageView read_title_lavels;
@@ -55,6 +56,8 @@ public class ReadRecipeFirsts extends AppCompatActivity {
         msp = new MySheredP(this);
         findViews();
         s = getIntent().getStringExtra(KEY_RECIPE);
+        uuid = android.provider.Settings.Secure.getString(
+                this.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
         recipe = new Gson().fromJson(s, Recipe.class);
         read_TNT_name.setText(recipe.getName());
@@ -146,6 +149,8 @@ public class ReadRecipeFirsts extends AppCompatActivity {
 
         String accountTemp = gson.toJson(account);
         msp.putString(KEY_Account, accountTemp);
+
+        myRef.child("Users").child(uuid).setValue(account);
 
     }
 

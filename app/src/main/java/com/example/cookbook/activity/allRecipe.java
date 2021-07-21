@@ -52,7 +52,7 @@ public class allRecipe extends AppCompatActivity {
         uuid = android.provider.Settings.Secure.getString(
                 this.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
 
-//        initListData();
+        initListData();
         all_BTN_dessert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

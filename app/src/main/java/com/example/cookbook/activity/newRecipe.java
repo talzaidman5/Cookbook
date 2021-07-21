@@ -149,6 +149,7 @@ public class newRecipe extends AppCompatActivity {
             public void onClick(View v) {
                 if (checkNullName() == 0) {
                     buildRecipe();
+
                     openNewActivityMain();
                     //  showInterstitial();
                 } else if (checkNullName() == 1)
@@ -192,6 +193,7 @@ public class newRecipe extends AppCompatActivity {
 
                         stringArrayAdapter.notifyDataSetChanged();
                         dialog.dismiss();
+
                     }
                 });
 
@@ -236,8 +238,10 @@ public class newRecipe extends AppCompatActivity {
                             listView_ingredient.setCacheColorHint(Color.WHITE);
                             stringArrayList.add(ingredient.toString());
                             stringArrayAdapter.notifyDataSetChanged();
+
                         }
                         putOnMSP();
+
                     }
                 });
 
@@ -288,6 +292,7 @@ public class newRecipe extends AppCompatActivity {
             account.addToAdds(newRecipe);
 
         putOnMSP();
+
     }
 
     @Override
@@ -296,6 +301,9 @@ public class newRecipe extends AppCompatActivity {
     }
 
     private void openNewActivityMain() {
+        account.setUuidAccount(uuid);
+        myRef.child("Users").child(uuid).setValue(account);
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
@@ -304,7 +312,6 @@ public class newRecipe extends AppCompatActivity {
     private void putOnMSP() {
         String accountTemp = gson.toJson(account);
         msp.putString(KEY_Account, accountTemp);
-        myRef.child("Users").child(uuid).setValue(account);
 
     }
 
