@@ -39,6 +39,7 @@ public class Recipes_FromHome extends AppCompatActivity {
     private Button back, add;
     Recipe[] temp;
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +86,6 @@ public class Recipes_FromHome extends AppCompatActivity {
         });
     }
 
-    private Recipe getRecipeByNameFirsts(String tempName) {
-        for(Recipe recipe : temp)
-            if(tempName.equals(recipe.getName()))
-                return recipe;
-            return  null;
-    }
-
     public void findViews() {
         first_all = findViewById(R.id.first_all);
         back = findViewById(R.id.back);
@@ -107,6 +101,13 @@ public class Recipes_FromHome extends AppCompatActivity {
         Intent intent = new Intent(this, allRecipe.class);
         startActivity(intent);
         finish();
+    }
+
+    private Recipe getRecipeByNameFirsts(String tempName) {
+        for(Recipe recipe : temp)
+            if(tempName.equals(recipe.getName()))
+                return recipe;
+        return  null;
     }
 
     private void openNewActivityNewRecipe() {
@@ -129,7 +130,7 @@ public class Recipes_FromHome extends AppCompatActivity {
         account = new Account(data);
 
         String data1 = msp.getString(IngredientsFromKitchen.KEY_FromHome, "NA");
-        temp  = gson.fromJson(data1, Recipe[].class);
+         temp = gson.fromJson(data1, Recipe[].class);
 
         for (int i = 0; i < temp.length; i++) {
             listNew.add(temp[i].getName());
