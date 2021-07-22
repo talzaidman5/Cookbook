@@ -142,14 +142,6 @@ public class ReadRecipeAdds extends AppCompatActivity {
         String data = msp.getString(KEY_Account, "NA");
 
         account = new Account(data);
-
-
-        for (int i = 0; i < recipe.getIngredient().size(); i++) {
-            listNew.add(" " + recipe.getIngredient().get(i));
-        }
-
-        arrayAdapter.notifyDataSetChanged();
-
     }
 
     private void putOnMSP() {
@@ -162,7 +154,7 @@ public class ReadRecipeAdds extends AppCompatActivity {
     private void getIndex() {
         getFromMSP();
         for (int i = 0; i < account.getRecipesAdds().size(); i++) {
-            if (account.getRecipesMain().get(i).getName().equals(recipe.getName()))
+            if (account.getRecipesAdds().get(i).getName().equals(recipe.getName()))
                 recipeIndex =  i;
         }
         recipeIndex =  -1;
